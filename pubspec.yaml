@@ -41,7 +41,9 @@ dependencies:
   font_awesome_flutter: ^10.3.0
   get_storage: ^2.0.3
   image_picker: ^0.8.6
-  
+  http: ^0.13.5
+  sn_progress_dialog: ^1.0.9
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

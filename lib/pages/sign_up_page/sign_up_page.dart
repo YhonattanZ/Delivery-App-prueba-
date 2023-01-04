@@ -155,7 +155,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             width: size.width * 0.6,
             child: ElevatedButton(
               onPressed: () {
-                registerCtrl.registerUser();
+                registerCtrl.registerUser(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 43, 136, 134),

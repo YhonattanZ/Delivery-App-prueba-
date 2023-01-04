@@ -1,3 +1,5 @@
+import 'package:app_delivery/src/models/models.dart';
+
 class User {
   String? email;
   String? name;
@@ -7,6 +9,8 @@ class User {
   String? password;
   String? id;
   String? sessionToken;
+  //Para obtener los roles
+  List<RolesUsuario>? roles = [];
 
   User(
       {this.email,
@@ -16,7 +20,8 @@ class User {
       this.image,
       this.password,
       this.id,
-      this.sessionToken});
+      this.sessionToken,
+      this.roles});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -27,6 +32,10 @@ class User {
     image = json['image'];
     password = json['password'];
     sessionToken = json['session_token'];
+    roles = json['roles'] == null
+        ? []
+        : List<RolesUsuario>.from(
+            json["roles"].map((model) => RolesUsuario.fromMap(model)));
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +48,7 @@ class User {
     data['password'] = password;
     data['id'] = id;
     data['session_token'] = sessionToken;
+    data["roles"] = roles;
     return data;
   }
 }

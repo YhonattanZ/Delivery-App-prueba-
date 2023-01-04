@@ -1,4 +1,5 @@
 import 'package:app_delivery/pages/pages.dart';
+import 'package:app_delivery/pages/roles/roles_page.dart';
 import 'package:app_delivery/src/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,11 +45,24 @@ class _MyAppState extends State<MyApp> {
                   borderRadius: BorderRadius.circular(10)))),
       debugShowCheckedModeBanner: false,
       title: 'Delivery App Udemy',
-      initialRoute: userSession.id != null ? '/home' : '/login',
+      initialRoute: userSession.id != null
+          ? userSession.roles!.length > 1
+              ? '/roles'
+              : '/client/products/list'
+          : '/login',
       getPages: [
         GetPage(name: '/register', page: () => SignUpPage()),
         GetPage(name: '/login', page: () => LoginPage()),
         GetPage(name: '/home', page: () => HomePage()),
+        GetPage(name: '/roles', page: () => RolesPage()),
+        GetPage(
+            name: '/client/products/list',
+            page: () => ClientProductsListPage()),
+        GetPage(
+            name: '/delivery/orders/list', page: () => DeliveryOrderListPage()),
+        GetPage(
+            name: '/restaurant/orders/list',
+            page: () => RestaurantOrderListPage()),
       ],
       navigatorKey: Get.key,
       home: Scaffold(
