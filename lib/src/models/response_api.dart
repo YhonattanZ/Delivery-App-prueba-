@@ -1,10 +1,3 @@
-import 'dart:convert';
-
-ResponseApi responseApiFromMap(String str) =>
-    ResponseApi.fromMap(json.decode(str));
-
-String responseApiToMap(ResponseApi data) => json.encode(data.toMap());
-
 class ResponseApi {
   bool? success;
   String? message;
@@ -12,9 +5,17 @@ class ResponseApi {
 
   ResponseApi({this.success, this.message, this.data});
 
-  factory ResponseApi.fromMap(Map<String, dynamic> json) => ResponseApi(
-      success: json["success"], message: json["message"], data: json["data"]);
+  ResponseApi.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    message = json['message'];
+    data = json['data'];
+  }
 
-  Map<String, dynamic> toMap() =>
-      {"success": success, "message": message, "data": data};
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['message'] = message;
+    data['data'] = this.data;
+    return data;
+  }
 }

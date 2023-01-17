@@ -15,7 +15,7 @@ DeliveryOrderListController deliveryCtrl =
 class _DeliveryOrderListPageState extends State<DeliveryOrderListPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(child: Text('Delivery Orders List')),
     );
   }

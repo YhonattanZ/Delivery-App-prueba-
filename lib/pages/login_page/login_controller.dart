@@ -23,8 +23,8 @@ class LoginController extends GetxController {
     Get.offNamedUntil('/roles', (route) => false);
   }
 
-  void goToClientProductPage() {
-    Get.offNamedUntil('/client/products/list', (route) => false);
+  void goToClientHomePage() {
+    Get.offNamedUntil('/client/home', (route) => false);
   }
 
   void login() async {
@@ -33,7 +33,7 @@ class LoginController extends GetxController {
 
     if (isValidForm(email, password)) {
       ResponseApi responseApi = await usersProvider.login(email, password);
-      print('Response api: ${responseApi.toMap()}');
+      print('Response api: ${responseApi.toJson()}');
 
       if (responseApi.success == true) {
         GetStorage()
@@ -43,7 +43,7 @@ class LoginController extends GetxController {
         if (user.roles!.length > 1) {
           goToRolesPage();
         } else {
-          goToClientProductPage();
+          goToClientHomePage();
         }
         //  goToHomePage();
 

@@ -1,10 +1,19 @@
+import 'package:app_delivery/providers/categories_provider.dart';
+import 'package:app_delivery/src/models/models.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class ClientProductListController extends GetxController {
-  void signOut() {
-    GetStorage().remove('user');
-    Get.offNamedUntil(
-        '/login', (route) => false); //Elimina todo el historial de pantalla
+  CategoriesProvider _categoriesProvider = CategoriesProvider();
+
+  List<Category> categories = <Category>[].obs;
+
+  ClientProductListController() {
+    getCategories();
+  }
+
+  void getCategories() async {
+    var result = await _categoriesProvider.getAllCategory();
+    categories.clear();
+    categories.addAll(result);
   }
 }

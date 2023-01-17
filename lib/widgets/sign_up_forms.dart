@@ -1,9 +1,11 @@
+import 'package:app_delivery/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class SignUpForms extends StatelessWidget {
   const SignUpForms({
     Key? key,
-    required this.controller,
+    this.controller,
+    this.lines,
     required this.obstext,
     required this.formTitle,
     required this.formIcon,
@@ -14,7 +16,8 @@ class SignUpForms extends StatelessWidget {
   final Icon formIcon;
   final TextInputType keyboardType;
   final bool obstext;
-  final TextEditingController controller;
+  final int? lines;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +26,15 @@ class SignUpForms extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.15),
         child: TextField(
+          maxLines: lines,
           controller: controller,
           scrollPhysics: const BouncingScrollPhysics(),
           obscureText: obstext,
           keyboardType: keyboardType,
-          decoration:
-              InputDecoration(hintText: formTitle, prefixIcon: formIcon),
+          decoration: InputDecoration(
+            hintText: formTitle,
+            prefixIcon: formIcon,
+          ),
         ),
       ),
     );

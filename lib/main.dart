@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 User userSession = User.fromJson(GetStorage().read('user') ?? {});
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   //Persistir datos de la sesion del usuario
   await GetStorage.init();
   runApp(const MyApp());
@@ -48,7 +49,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: userSession.id != null
           ? userSession.roles!.length > 1
               ? '/roles'
-              : '/client/products/list'
+              : '/client/home'
           : '/login',
       getPages: [
         GetPage(name: '/register', page: () => SignUpPage()),
@@ -56,13 +57,19 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/home', page: () => HomePage()),
         GetPage(name: '/roles', page: () => RolesPage()),
         GetPage(
-            name: '/client/products/list',
-            page: () => ClientProductsListPage()),
+            name: '/restaurant/orders/list',
+            page: () => RestaurantOrderListPage()),
+        GetPage(name: '/restaurant/home', page: () => RestaurantHomePage()),
         GetPage(
             name: '/delivery/orders/list', page: () => DeliveryOrderListPage()),
         GetPage(
-            name: '/restaurant/orders/list',
-            page: () => RestaurantOrderListPage()),
+            name: '/client/products/list',
+            page: () => ClientProductsListPage()),
+        GetPage(name: '/client/home', page: () => ClientHomePage()),
+        GetPage(
+            name: '/client/profile/info', page: () => ClientProfileInfoPage()),
+        GetPage(
+            name: '/client/update/info', page: () => ClientProfileUpdatePage()),
       ],
       navigatorKey: Get.key,
       home: Scaffold(

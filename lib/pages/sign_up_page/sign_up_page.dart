@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:app_delivery/pages/sign_up_page/sign_up_controller.dart';
 
 import 'package:app_delivery/widgets/widgets.dart';
@@ -111,6 +113,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             height: size.height * 0.02,
           ),
           SignUpForms(
+              lines: 1,
               controller: registerCtrl.NameCtrl,
               obstext: false,
               formTitle: 'Nombre',
@@ -121,6 +124,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             height: size.height * 0.02,
           ),
           SignUpForms(
+              lines: 1,
               controller: registerCtrl.LastnameCtrl,
               obstext: false,
               formTitle: 'Apellido',
@@ -131,6 +135,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             height: size.height * 0.02,
           ),
           SignUpForms(
+              lines: 1,
               controller: registerCtrl.passwordCtrl,
               obstext: true,
               formTitle: 'Contraseña',
@@ -141,6 +146,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             height: size.height * 0.02,
           ),
           SignUpForms(
+              lines: 1,
               controller: registerCtrl.PhoneCtrl,
               obstext: false,
               formTitle: 'Numero de telefono',

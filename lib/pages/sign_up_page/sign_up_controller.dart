@@ -1,8 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:app_delivery/pages/home_page/home_controller.dart';
-import 'package:app_delivery/pages/home_page/home_page.dart';
 import 'package:app_delivery/providers/user_provider.dart';
 import 'package:app_delivery/src/models/models.dart';
 
@@ -55,7 +55,7 @@ class RegisterController extends GetxController {
 
       Stream stream = await usersProvider.createUserWithImage(user, imageFile!);
       stream.listen((res) {
-        ResponseApi responseApi = ResponseApi.fromMap(json.decode(res));
+        ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
 
         if (responseApi.success == true) {
           GetStorage()

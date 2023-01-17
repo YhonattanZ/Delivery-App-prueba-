@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 homeController.signOut();
               },
-              child: Icon(Icons.logout))),
+              child: const Icon(Icons.logout))),
     );
   }
 }

@@ -10,13 +10,13 @@ class RestaurantOrderListPage extends StatefulWidget {
       _RestaurantOrderListPageState();
 }
 
-RestaurantOrderListController restaurantCtrl =
+RestaurantOrderListController restaurantlistCtrl =
     Get.put(RestaurantOrderListController());
 
 class _RestaurantOrderListPageState extends State<RestaurantOrderListPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(child: Text('Restaurant Orders List')),
     );
   }

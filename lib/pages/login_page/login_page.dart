@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:app_delivery/pages/login_page/login_controller.dart';
 import 'package:app_delivery/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -88,6 +90,7 @@ Widget _LoginAccountBox(BuildContext context) {
           ),
           SizedBox(height: size.height * 0.12),
           SignUpForms(
+              lines: 1,
               controller: loginCtrl.emailCtrl,
               obstext: false,
               formTitle: 'Email',
@@ -99,6 +102,7 @@ Widget _LoginAccountBox(BuildContext context) {
           ),
           SignUpForms(
               obstext: true,
+              lines: 1,
               controller: loginCtrl.passwordCtrl,
               formTitle: 'Contraseña',
               formIcon: const Icon(Icons.lock_outline_rounded,
