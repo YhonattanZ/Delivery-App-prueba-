@@ -78,7 +78,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             style: GoogleFonts.lato(
                 color: Colors.black, fontSize: 22, fontWeight: FontWeight.w400),
             icon: const Icon(Icons.person, size: 30),
-            iconColor: kPrimaryColor,
+            iconColor: kSecondaryColor,
             info: '${infoController.user.value.name ?? ''} '
                 '${infoController.user.value.lastname ?? ''}',
             subtitleInfo: 'Nombre',
@@ -88,7 +88,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             style: GoogleFonts.lato(
                 color: Colors.black, fontSize: 22, fontWeight: FontWeight.w400),
             icon: const Icon(Icons.email, size: 30),
-            iconColor: kPrimaryColor,
+            iconColor: kSecondaryColor,
             info: infoController.user.value.email!,
             subtitleInfo: 'Email',
           ),
@@ -100,7 +100,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
               Icons.whatsapp,
               size: 30,
             ),
-            iconColor: kPrimaryColor,
+            iconColor: kSecondaryColor,
             info: infoController.user.value.phone!,
             subtitleInfo: 'Numero de contacto',
           ),
@@ -137,7 +137,7 @@ Widget _backgroundColor(BuildContext context) {
   return Container(
     width: double.infinity,
     height: MediaQuery.of(context).size.height * 0.30,
-    color: kPrimaryColor,
+    color: kSecondaryColor,
   );
 }
 

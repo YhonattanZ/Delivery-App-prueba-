@@ -103,6 +103,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
           ),
           SizedBox(height: size.height * 0.02),
           SignUpForms(
+              autofocus: true,
               controller: registerCtrl.EmailCtrl,
               obstext: false,
               formTitle: 'Email',
@@ -113,6 +114,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             height: size.height * 0.02,
           ),
           SignUpForms(
+              autofocus: true,
               lines: 1,
               controller: registerCtrl.NameCtrl,
               obstext: false,
@@ -124,6 +126,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             height: size.height * 0.02,
           ),
           SignUpForms(
+              autofocus: true,
               lines: 1,
               controller: registerCtrl.LastnameCtrl,
               obstext: false,
@@ -135,6 +138,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             height: size.height * 0.02,
           ),
           SignUpForms(
+              autofocus: true,
               lines: 1,
               controller: registerCtrl.passwordCtrl,
               obstext: true,
@@ -146,6 +150,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             height: size.height * 0.02,
           ),
           SignUpForms(
+              autofocus: true,
               lines: 1,
               controller: registerCtrl.PhoneCtrl,
               obstext: false,

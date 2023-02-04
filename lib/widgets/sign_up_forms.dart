@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 class SignUpForms extends StatelessWidget {
   const SignUpForms({
     Key? key,
+    required this.autofocus,
+    this.focusNode,
     this.controller,
     this.lines,
+    this.onTap,
     required this.obstext,
     required this.formTitle,
     required this.formIcon,
@@ -18,6 +21,9 @@ class SignUpForms extends StatelessWidget {
   final bool obstext;
   final int? lines;
   final TextEditingController? controller;
+  final bool autofocus;
+  final FocusNode? focusNode;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +32,9 @@ class SignUpForms extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.15),
         child: TextField(
+          onTap: onTap,
+          focusNode: focusNode,
+          autofocus: autofocus,
           maxLines: lines,
           controller: controller,
           scrollPhysics: const BouncingScrollPhysics(),

@@ -70,6 +70,15 @@ class _MyAppState extends State<MyApp> {
             name: '/client/profile/info', page: () => ClientProfileInfoPage()),
         GetPage(
             name: '/client/update/info', page: () => ClientProfileUpdatePage()),
+        GetPage(
+            name: '/client/orders/create', page: () => ClientOrderCreatePage()),
+        GetPage(
+            name: '/client/address/create',
+            page: () => ClientAddressCreatePage()),
+        GetPage(
+            name: '/client/address/list', page: () => ClientAddressListPage()),
+        GetPage(
+            name: '/client/address/map', page: () => ClientAddressMapPage()),
       ],
       navigatorKey: Get.key,
       home: Scaffold(

@@ -71,6 +71,8 @@ class RestaurantCreateProductController extends GetxController {
         Get.snackbar('Proceso terminado', responseApi.message ?? '');
         if (responseApi.success == true) {
           clearForm();
+        } else {
+          Get.snackbar('Un error ha ocurrido', responseApi.message ?? '');
         }
       });
     }

@@ -24,7 +24,7 @@ class Product {
   String? image2;
   String? image3;
   String? idCategory;
-  double? price;
+  num? price;
   int? quantity;
 
   factory Product.fromMap(Map<String, dynamic> json) => Product(
@@ -38,6 +38,16 @@ class Product {
         price: json["price"],
         quantity: json["quantity"],
       );
+
+  static List<Product> fromJsonList(List jsonList) {
+    List<Product> toList = [];
+
+    for (var item in jsonList) {
+      Product product = Product.fromMap(item);
+      toList.add(product);
+    }
+    return toList;
+  }
 
   Map<String, dynamic> toMap() => {
         "id": id,

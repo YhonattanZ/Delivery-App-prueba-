@@ -3,14 +3,14 @@ import 'package:app_delivery/src/models/models.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class CategoriesProvider extends GetConnect {
-  String url = Environment.API_URL + 'api/categories';
+class AddressProvider extends GetConnect {
+  String url = Environment.API_URL + 'api/address';
 
   final User _user = User.fromJson(GetStorage().read('user') ?? {});
 
-//Listar categorias
-  Future<List<Category>> getAllCategory() async {
-    Response res = await get('$url/getAll', headers: {
+  //Listar direcciones
+  Future<List<Address>> findByUser(String idUser) async {
+    Response res = await get('$url/findByUser/$idUser', headers: {
       'Content-Type': 'application/json',
       'Authorization': _user.sessionToken ?? ''
     });
@@ -18,15 +18,13 @@ class CategoriesProvider extends GetConnect {
       Get.snackbar('Peticion negada', 'No posee autorizacion');
       return [];
     }
-
-    List<Category> categories = Category.fromJsonList(res.body["data"]);
-
-    return categories;
+    List<Address> address = Address.fromJsonList(res.body);
+    return address;
   }
 
 //Crear categorias
-  Future<ResponseApi> createCategory(Category category) async {
-    Response res = await post('$url/create', category.toMap(), headers: {
+  Future<ResponseApi> createAdress(Address address) async {
+    Response res = await post('$url/create', address.toMap(), headers: {
       'Content-Type': 'application/json',
       'Authorization': _user.sessionToken ?? ''
     });

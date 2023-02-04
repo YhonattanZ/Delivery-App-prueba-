@@ -90,6 +90,7 @@ Widget _LoginAccountBox(BuildContext context) {
           ),
           SizedBox(height: size.height * 0.12),
           SignUpForms(
+              autofocus: true,
               lines: 1,
               controller: loginCtrl.emailCtrl,
               obstext: false,
@@ -101,6 +102,7 @@ Widget _LoginAccountBox(BuildContext context) {
             height: size.height * 0.02,
           ),
           SignUpForms(
+              autofocus: true,
               obstext: true,
               lines: 1,
               controller: loginCtrl.passwordCtrl,

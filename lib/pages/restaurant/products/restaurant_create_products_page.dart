@@ -57,6 +57,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             margin: EdgeInsets.only(top: size.height / 40),
             alignment: Alignment.center,
             child: SignUpForms(
+                autofocus: true,
                 controller: _createProductCtrl.nameCtrl,
                 obstext: false,
                 formTitle: 'Nombre',
@@ -70,6 +71,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             height: size.height * 0.03,
           ),
           SignUpForms(
+              autofocus: true,
               controller: _createProductCtrl.descriptionCtrl,
               obstext: false,
               lines: 3,
@@ -80,6 +82,7 @@ Widget _CreateNewAccountBox(BuildContext context) {
             height: size.height * 0.03,
           ),
           SignUpForms(
+              autofocus: true,
               controller: _createProductCtrl.priceCtrl,
               obstext: false,
               lines: 1,

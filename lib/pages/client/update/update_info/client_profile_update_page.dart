@@ -67,10 +67,11 @@ Widget _CreateNewAccountBox(BuildContext context) {
             height: size.height * 0.04,
           ),
           SignUpForms(
+              autofocus: true,
               controller: updateController.nameCtrl,
               obstext: false,
               formTitle: 'Nombre',
-              formIcon: Icon(
+              formIcon: const Icon(
                 Icons.person,
                 color: kPrimaryColor,
               ),
@@ -79,19 +80,21 @@ Widget _CreateNewAccountBox(BuildContext context) {
             height: size.height * 0.03,
           ),
           SignUpForms(
+              autofocus: true,
               controller: updateController.lastnameCtrl,
               obstext: false,
               formTitle: 'Apellido',
-              formIcon: Icon(Icons.person_outline, color: kPrimaryColor),
+              formIcon: const Icon(Icons.person_outline, color: kPrimaryColor),
               keyboardType: TextInputType.name),
           SizedBox(
             height: size.height * 0.03,
           ),
           SignUpForms(
+              autofocus: true,
               controller: updateController.phoneCtrl,
               obstext: false,
               formTitle: 'Numero de telefono',
-              formIcon: Icon(Icons.phone, color: kPrimaryColor),
+              formIcon: const Icon(Icons.phone, color: kPrimaryColor),
               keyboardType: TextInputType.phone),
           SizedBox(
             height: size.height * 0.05,
