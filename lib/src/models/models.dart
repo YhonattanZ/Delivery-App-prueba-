@@ -1,3 +1,5 @@
+export 'package:app_delivery/src/models/order.dart';
+
 export 'package:app_delivery/src/models/address.dart';
 
 export 'package:app_delivery/src/models/product.dart';

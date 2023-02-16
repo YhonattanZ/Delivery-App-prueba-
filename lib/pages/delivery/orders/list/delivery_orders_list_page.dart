@@ -1,5 +1,5 @@
 import 'package:app_delivery/constants/constants.dart';
-import 'package:app_delivery/pages/restaurant/orders/list/restaurant_order_list_controller.dart';
+import 'package:app_delivery/pages/delivery/orders/list/delivery_order_list_controller.dart';
 import 'package:app_delivery/src/models/models.dart';
 import 'package:app_delivery/widgets/nodata_widget.dart';
 import 'package:flutter/material.dart';
@@ -8,23 +8,22 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../utils/relative_time_util.dart';
 
-class RestaurantOrderListPage extends StatefulWidget {
-  const RestaurantOrderListPage({super.key});
+class DeliveryOrderListPage extends StatefulWidget {
+  const DeliveryOrderListPage({super.key});
 
   @override
-  State<RestaurantOrderListPage> createState() =>
-      _RestaurantOrderListPageState();
+  State<DeliveryOrderListPage> createState() => _DeliveryOrderListPageState();
 }
 
-RestaurantOrderListController restaurantlistCtrl =
-    Get.put(RestaurantOrderListController());
+DeliveryOrderListController deliverylistCtrl =
+    Get.put(DeliveryOrderListController());
 
-class _RestaurantOrderListPageState extends State<RestaurantOrderListPage> {
+class _DeliveryOrderListPageState extends State<DeliveryOrderListPage> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Obx(() => DefaultTabController(
-          length: restaurantlistCtrl.status.length,
+          length: deliverylistCtrl.status.length,
           child: Scaffold(
               appBar: PreferredSize(
                 preferredSize: Size.fromHeight(height / 9),
@@ -52,9 +51,9 @@ class _RestaurantOrderListPageState extends State<RestaurantOrderListPage> {
                             color: Colors.white),
                         tabs: [
                           ...List<Widget>.generate(
-                              restaurantlistCtrl.status.length, (index) {
+                              deliverylistCtrl.status.length, (index) {
                             return Tab(
-                              child: Text(restaurantlistCtrl.status[index]),
+                              child: Text(deliverylistCtrl.status[index]),
                             );
                           }),
                         ],
@@ -64,9 +63,9 @@ class _RestaurantOrderListPageState extends State<RestaurantOrderListPage> {
                 ),
               ),
               body: TabBarView(
-                  children: restaurantlistCtrl.status.map((String status) {
+                  children: deliverylistCtrl.status.map((String status) {
                 return FutureBuilder(
-                  future: restaurantlistCtrl.getOrders(status),
+                  future: deliverylistCtrl.getOrders(status),
                   builder: (context, AsyncSnapshot<List<Order>> snapshot) {
                     if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                       return ListView.builder(
@@ -90,7 +89,7 @@ class _RestaurantOrderListPageState extends State<RestaurantOrderListPage> {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        restaurantlistCtrl.goToOrderDetail(order);
+        deliverylistCtrl.goToOrderDetail(order);
       },
       child: Container(
         height: size.height * 0.22,

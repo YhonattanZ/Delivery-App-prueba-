@@ -64,7 +64,9 @@ Widget _CreateNewAddressBox(BuildContext context) {
           iconSize: 30,
           icon: const Icon(Icons.arrow_back),
           color: Colors.white,
-          onPressed: () {},
+          onPressed: () {
+            Get.back();
+          },
         ),
       ),
     ),
@@ -75,7 +77,7 @@ Widget _CreateNewAddressBox(BuildContext context) {
         BoxShadow(color: Colors.black38, spreadRadius: 3, blurRadius: 10)
       ], color: Colors.white, borderRadius: BorderRadius.circular(40)),
       width: double.infinity,
-      height: size.height * 0.5,
+      height: size.height * 0.51,
       child: Column(
         children: [
           SizedBox(

@@ -56,22 +56,32 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/login', page: () => LoginPage()),
         GetPage(name: '/home', page: () => HomePage()),
         GetPage(name: '/roles', page: () => RolesPage()),
+        //Rutas Rol Restaurant
         GetPage(
             name: '/restaurant/orders/list',
             page: () => RestaurantOrderListPage()),
         GetPage(name: '/restaurant/home', page: () => RestaurantHomePage()),
         GetPage(
+            name: '/restaurant/orders/detail',
+            page: () => RestaurantOrderDetailPage()),
+        //Rutas Rol Delivery
+        GetPage(name: '/delivery/home', page: () => DeliveryHomePage()),
+        GetPage(
             name: '/delivery/orders/list', page: () => DeliveryOrderListPage()),
         GetPage(
-            name: '/client/products/list',
-            page: () => ClientProductsListPage()),
+            name: '/delivery/orders/detail',
+            page: () => DeliveryOrderDetailPage()),
+        GetPage(
+            name: '/delivery/orders/map', page: () => DeliveryOrdersMapPage()),
+        //Rutas Rol Cliente
         GetPage(name: '/client/home', page: () => ClientHomePage()),
         GetPage(
             name: '/client/profile/info', page: () => ClientProfileInfoPage()),
         GetPage(
             name: '/client/update/info', page: () => ClientProfileUpdatePage()),
         GetPage(
-            name: '/client/orders/create', page: () => ClientOrderCreatePage()),
+            name: '/client/products/list',
+            page: () => ClientProductsListPage()),
         GetPage(
             name: '/client/address/create',
             page: () => ClientAddressCreatePage()),
@@ -79,6 +89,11 @@ class _MyAppState extends State<MyApp> {
             name: '/client/address/list', page: () => ClientAddressListPage()),
         GetPage(
             name: '/client/address/map', page: () => ClientAddressMapPage()),
+        GetPage(
+            name: '/client/orders/create', page: () => ClientOrderCreatePage()),
+        GetPage(
+            name: '/client/payments/create',
+            page: () => ClientPaymentsCreatePage()),
       ],
       navigatorKey: Get.key,
       home: Scaffold(

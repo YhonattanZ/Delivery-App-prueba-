@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:get_storage/get_storage.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_delivery/environment/environment.dart';
@@ -18,6 +19,22 @@ class UsersProvider extends GetConnect {
     Response res = await post('$url/create', user.toJson(),
         headers: {'Content-Type': 'application/json'});
     return res;
+  }
+
+//Listar categorias
+  Future<List<User>> findDeliveryMen() async {
+    Response res = await get('$url/findDeliveryMen', headers: {
+      'Content-Type': 'application/json',
+      'Authorization': sessionUser.sessionToken ?? ''
+    });
+    if (res.statusCode == 401) {
+      Get.snackbar('Peticion negada', 'No posee autorizacion');
+      return [];
+    }
+
+    List<User> user = User.fromJsonList(res.body);
+
+    return user;
   }
 
 //Actualizar sin cambiar la imagen

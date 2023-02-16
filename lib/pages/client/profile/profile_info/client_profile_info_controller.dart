@@ -7,6 +7,8 @@ class ClientProfileInfoController extends GetxController {
 
   void signOut() {
     GetStorage().remove('user');
+    GetStorage().remove('shopping_bag');
+    GetStorage().remove('address');
     Get.offNamedUntil(
         '/login', (route) => false); //Elimina todo el historial de pantalla
   }

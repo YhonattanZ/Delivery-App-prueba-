@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:app_delivery/providers/address_provider.dart';
+import 'package:app_delivery/providers/orders_provider.dart';
 import 'package:app_delivery/src/models/models.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ClientAddressListController extends GetxController {
   List<Address> address = [];
-  AddressProvider _addressProvider = AddressProvider();
+  final AddressProvider _addressProvider = AddressProvider();
+  final OrdersProvider _ordersProvider = OrdersProvider();
   User user = User.fromJson(GetStorage().read('user') ?? {});
 
   var radioValue = 0.obs;
@@ -24,6 +29,19 @@ class ClientAddressListController extends GetxController {
       radioValue.value = index;
     }
     return address;
+  }
+
+  void createOrder() async {
+    Address a = Address.fromMap(GetStorage().read('address') ?? {});
+    List<Product> products =
+        Product.fromJsonList(GetStorage().read('shopping_bag'));
+    Order order = Order(idClient: user.id, idAddress: a.id, products: products);
+    ResponseApi responseApi = await _ordersProvider.createOrder(order);
+    Fluttertoast.showToast(msg: responseApi.message ?? '');
+    if (responseApi.success == true) {
+      GetStorage().remove('shopping_bag');
+      Get.toNamed('client/payments/create');
+    }
   }
 
   void handleRadioValueChange(int? value) {

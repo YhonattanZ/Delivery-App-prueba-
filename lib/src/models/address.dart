@@ -15,7 +15,7 @@ class Address {
   });
 
   String? id;
-  String? address;
+  dynamic address;
   String? neighborhood;
   String? idUser;
   double? lat;

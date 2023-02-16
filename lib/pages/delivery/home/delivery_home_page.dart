@@ -9,20 +9,19 @@ import 'package:get/get.dart';
 //Pantalla por defecto para los usuarios, rol cliente
 ClientHomeController clientCtrl = Get.put(ClientHomeController());
 
-class ClientHomePage extends StatelessWidget {
-  const ClientHomePage({super.key});
+class DeliveryHomePage extends StatelessWidget {
+  const DeliveryHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: _bottomBar(),
-        body: Obx(() =>
-            IndexedStack(index: clientCtrl.indexTab.value, children: const [
-              RestaurantCategoriesCreatePage(),
-              RestaurantOrderListPage(),
-              DeliveryOrderListPage(),
-              ClientProfileInfoPage()
-            ])));
+        body: Obx(() => IndexedStack(
+                index: clientCtrl.indexTab.value,
+                children: const [
+                  DeliveryOrderListPage(),
+                  ClientProfileInfoPage()
+                ])));
   }
 }
 
@@ -40,16 +39,6 @@ Widget _bottomBar() {
         BottomNavyBarItem(
             icon: const Icon(Icons.home),
             title: const Text('Pedidos'),
-            activeColor: Colors.white,
-            inactiveColor: Colors.black),
-        BottomNavyBarItem(
-            icon: const Icon(FontAwesomeIcons.list),
-            title: const Text('Crear categoria'),
-            activeColor: Colors.white,
-            inactiveColor: Colors.black),
-        BottomNavyBarItem(
-            icon: const Icon(FontAwesomeIcons.list),
-            title: const Text('Crear producto'),
             activeColor: Colors.white,
             inactiveColor: Colors.black),
         BottomNavyBarItem(

@@ -19,7 +19,7 @@ class ClientAddressCreateController extends GetxController {
   double latRefPoint = 0;
   double lngRefPoint = 0;
 
-  ClientAddressListController _addressListController = Get
+  final ClientAddressListController _addressListController = Get
       .find(); // Instanciamos el controlador de la lista de direcciones, para actualizar la pagina al agregar una direccion nueva
 
   void openGoogleMaps(BuildContext context) async {

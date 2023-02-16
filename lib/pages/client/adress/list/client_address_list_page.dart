@@ -14,8 +14,30 @@ class ClientAddressListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
+        bottomNavigationBar: Container(
+          margin: EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+          height: size.height * 0.07,
+          width: size.width * 0.6,
+          child: ElevatedButton(
+            onPressed: () {
+              addressListController.createOrder();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kSecondaryColor,
+              shape: const StadiumBorder(),
+            ),
+            child: Text(
+              'Crear dirección',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.lato(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+        ),
         appBar: AppBar(
           titleSpacing: 25,
           centerTitle: true,
@@ -43,7 +65,10 @@ class ClientAddressListPage extends StatelessWidget {
         ),
         body: GetBuilder<ClientAddressListController>(
             builder: (value) => Stack(
-                  children: [_textSelectAddress(), _listAddress()],
+                  children: [
+                    _textSelectAddress(),
+                    _listAddress(),
+                  ],
                 )));
   }
 
