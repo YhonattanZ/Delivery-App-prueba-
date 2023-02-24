@@ -1,3 +1,9 @@
+export 'package:app_delivery/pages/client/orders/map/client_orders_map_page.dart';
+
+export 'package:app_delivery/pages/client/orders/list/client_orders_list_page.dart';
+
+export 'package:app_delivery/pages/client/orders/detail/client_order_detail_page.dart';
+
 export 'package:app_delivery/pages/delivery/orders/map/delivery_orders_map_page.dart';
 
 export 'package:app_delivery/pages/delivery/home/delivery_home_page.dart';

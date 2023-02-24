@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:app_delivery/environment/environment.dart';
 import 'package:app_delivery/src/models/models.dart';
@@ -29,6 +30,23 @@ class OrdersProvider extends GetConnect {
   Future<List<Order>> findByDeliveryAndStatus(
       String idDelivery, String status) async {
     Response res = await get('$url/findByDeliveryAndStatus/$idDelivery/$status',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': _user.sessionToken ?? ''
+        });
+    if (res.statusCode == 401) {
+      Get.snackbar('Peticion negada', 'No posee autorizacion');
+      return [];
+    }
+
+    List<Order> orders = Order.fromJsonList(res.body);
+
+    return orders;
+  }
+
+  Future<List<Order>> findByClientAndStatus(
+      String idClient, String status) async {
+    Response res = await get('$url/findByClientAndStatus/$idClient/$status',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': _user.sessionToken ?? ''
@@ -78,6 +96,7 @@ class OrdersProvider extends GetConnect {
       'Authorization': _user.sessionToken ?? ''
     });
     ResponseApi responseApi = ResponseApi.fromJson(res.body);
+
     return responseApi;
   }
 }

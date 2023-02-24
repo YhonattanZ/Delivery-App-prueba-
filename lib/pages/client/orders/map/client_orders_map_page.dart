@@ -1,24 +1,23 @@
 import 'package:app_delivery/constants/constants.dart';
-import 'package:app_delivery/pages/delivery/orders/map/delivery_orders_map_controller.dart';
+import 'package:app_delivery/pages/client/orders/map/client_orders_map_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class DeliveryOrdersMapPage extends StatelessWidget {
-  DeliveryOrdersMapPage({super.key});
+class ClientOrdersMapPage extends StatelessWidget {
+  ClientOrdersMapPage({super.key});
 
-  DeliveryOrderMapController deliverymapController =
-      Get.put(DeliveryOrderMapController());
+  ClientOrderMapController clientmapController =
+      Get.put(ClientOrderMapController());
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return GetBuilder<DeliveryOrderMapController>(
+    return GetBuilder<ClientOrderMapController>(
         builder: (value) => Scaffold(
               body: Stack(children: [
-                SizedBox(height: size.height * 0.62, child: _googleMap()),
+                SizedBox(height: size.height * 0.64, child: _googleMap()),
                 Column(
                   children: [
                     Row(
@@ -36,7 +35,7 @@ class DeliveryOrdersMapPage extends StatelessWidget {
   Widget _centerMyLocation() {
     return GestureDetector(
       onTap: () {
-        deliverymapController.centerPosition();
+        clientmapController.centerPosition();
       },
       child: Container(
         alignment: Alignment.topRight,
@@ -77,7 +76,7 @@ class DeliveryOrdersMapPage extends StatelessWidget {
   Widget _CardOrderInfo(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      height: size.height / 2.6,
+      height: size.height / 2.75,
       width: double.infinity,
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -90,24 +89,26 @@ class DeliveryOrdersMapPage extends StatelessWidget {
                 blurRadius: 7,
                 offset: Offset(0, 3))
           ]),
-      child: Column(
-        children: [
-          _listTileAddressInfo(
-              deliverymapController.order.address?.neighborhood ?? '',
-              'Barrio',
-              Icons.my_location),
-          _listTileAddressInfo(
-              deliverymapController.order.address?.address ?? '',
-              'Direccion',
-              Icons.location_on),
-          const Divider(
-            endIndent: 30,
-            indent: 30,
-            color: Colors.red,
-          ),
-          _clientInfo(),
-          _buttonAccept(context)
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30.0),
+        child: Column(
+          children: [
+            _listTileAddressInfo(
+                clientmapController.order.address?.neighborhood ?? '',
+                'Barrio',
+                Icons.my_location),
+            _listTileAddressInfo(
+                clientmapController.order.address?.address ?? '',
+                'Direccion',
+                Icons.location_on),
+            const Divider(
+              endIndent: 20,
+              indent: 20,
+              color: Colors.red,
+            ),
+            _deliveryInfo(),
+          ],
+        ),
       ),
     );
   }
@@ -129,15 +130,15 @@ class DeliveryOrdersMapPage extends StatelessWidget {
     );
   }
 
-  Widget _clientInfo() {
+  Widget _deliveryInfo() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
       child: Row(
         children: [
           _imageClient(),
-          const SizedBox(width: 10),
+          const SizedBox(width: 15),
           Text(
-              '${deliverymapController.order.client?.name} ${deliverymapController.order.client?.lastname}',
+              '${clientmapController.order.delivery?.name} ${clientmapController.order.delivery?.lastname}',
               style:
                   GoogleFonts.lato(fontSize: 20, fontStyle: FontStyle.italic)),
           Spacer(),
@@ -147,7 +148,7 @@ class DeliveryOrdersMapPage extends StatelessWidget {
                 color: Colors.white),
             child: IconButton(
               onPressed: () {
-                deliverymapController.callNumber();
+                clientmapController.callNumber();
               },
               icon: Icon(
                 Icons.phone,
@@ -168,36 +169,12 @@ class DeliveryOrdersMapPage extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: FadeInImage(
-          image: deliverymapController.order.client!.image != null
-              ? NetworkImage(deliverymapController.order.client!.image!)
+          image: clientmapController.order.delivery!.image != null
+              ? NetworkImage(clientmapController.order.delivery!.image!)
               : const AssetImage('assets/images/no-image.jpg') as ImageProvider,
           fit: BoxFit.cover,
           fadeInDuration: const Duration(milliseconds: 50),
           placeholder: const AssetImage('assets/images/no-image.jpg'),
-        ),
-      ),
-    );
-  }
-
-  Widget _buttonAccept(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return SizedBox(
-      height: size.height * 0.06,
-      width: size.width * 0.8,
-      child: ElevatedButton(
-        onPressed: () {
-          deliverymapController.selectRefPoint(context);
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: kSecondaryColor,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(18))),
-        ),
-        child: Text(
-          'Entregar pedido',
-          textAlign: TextAlign.center,
-          style: GoogleFonts.lato(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
         ),
       ),
     );
@@ -212,7 +189,7 @@ class DeliveryOrdersMapPage extends StatelessWidget {
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          child: Text(deliverymapController.addressName.value,
+          child: Text(clientmapController.addressName.value,
               textAlign: TextAlign.center,
               style: GoogleFonts.lato(
                   color: Colors.white,
@@ -239,14 +216,14 @@ class DeliveryOrdersMapPage extends StatelessWidget {
 
   Widget _googleMap() {
     return GoogleMap(
-      initialCameraPosition: deliverymapController.initialPosition,
+      initialCameraPosition: clientmapController.initialPosition,
       mapType: MapType.normal,
       onMapCreated: (GoogleMapController controller) {
-        deliverymapController.googleMapController.complete(controller);
+        clientmapController.googleMapController.complete(controller);
       },
       myLocationButtonEnabled: false,
       myLocationEnabled: false,
-      markers: Set<Marker>.of(deliverymapController.markers.values),
+      markers: Set<Marker>.of(clientmapController.markers.values),
       //  polylines: deliverymapController.polylines,
     );
   }

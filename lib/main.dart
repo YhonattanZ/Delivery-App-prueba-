@@ -52,33 +52,37 @@ class _MyAppState extends State<MyApp> {
               : '/client/home'
           : '/login',
       getPages: [
-        GetPage(name: '/register', page: () => SignUpPage()),
+        GetPage(name: '/register', page: () => const SignUpPage()),
         GetPage(name: '/login', page: () => LoginPage()),
         GetPage(name: '/home', page: () => HomePage()),
-        GetPage(name: '/roles', page: () => RolesPage()),
+        GetPage(name: '/roles', page: () => const RolesPage()),
         //Rutas Rol Restaurant
         GetPage(
             name: '/restaurant/orders/list',
-            page: () => RestaurantOrderListPage()),
-        GetPage(name: '/restaurant/home', page: () => RestaurantHomePage()),
+            page: () => const RestaurantOrderListPage()),
+        GetPage(
+            name: '/restaurant/home', page: () => const RestaurantHomePage()),
         GetPage(
             name: '/restaurant/orders/detail',
             page: () => RestaurantOrderDetailPage()),
         //Rutas Rol Delivery
-        GetPage(name: '/delivery/home', page: () => DeliveryHomePage()),
+        GetPage(name: '/delivery/home', page: () => const DeliveryHomePage()),
         GetPage(
-            name: '/delivery/orders/list', page: () => DeliveryOrderListPage()),
+            name: '/delivery/orders/list',
+            page: () => const DeliveryOrderListPage()),
         GetPage(
             name: '/delivery/orders/detail',
             page: () => DeliveryOrderDetailPage()),
         GetPage(
             name: '/delivery/orders/map', page: () => DeliveryOrdersMapPage()),
         //Rutas Rol Cliente
-        GetPage(name: '/client/home', page: () => ClientHomePage()),
+        GetPage(name: '/client/home', page: () => const ClientHomePage()),
         GetPage(
-            name: '/client/profile/info', page: () => ClientProfileInfoPage()),
+            name: '/client/profile/info',
+            page: () => const ClientProfileInfoPage()),
         GetPage(
-            name: '/client/update/info', page: () => ClientProfileUpdatePage()),
+            name: '/client/update/info',
+            page: () => const ClientProfileUpdatePage()),
         GetPage(
             name: '/client/products/list',
             page: () => ClientProductsListPage()),
@@ -92,8 +96,11 @@ class _MyAppState extends State<MyApp> {
         GetPage(
             name: '/client/orders/create', page: () => ClientOrderCreatePage()),
         GetPage(
+            name: '/client/orders/detail', page: () => ClientOrderDetailPage()),
+        GetPage(name: '/client/orders/map', page: () => ClientOrdersMapPage()),
+        GetPage(
             name: '/client/payments/create',
-            page: () => ClientPaymentsCreatePage()),
+            page: () => const ClientPaymentsCreatePage()),
       ],
       navigatorKey: Get.key,
       home: Scaffold(

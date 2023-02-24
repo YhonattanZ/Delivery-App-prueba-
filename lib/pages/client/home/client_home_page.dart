@@ -23,7 +23,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
         bottomNavigationBar: _bottomBar(),
         body: Obx(() => IndexedStack(index: homeCtrl.indexTab.value, children: [
               ClientProductsListPage(),
-              const DeliveryOrderListPage(),
+              const ClientOrderListPage(),
               ClientProfileInfoPage()
             ])));
   }

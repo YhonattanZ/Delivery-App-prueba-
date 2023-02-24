@@ -15,7 +15,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
 
-class DeliveryOrderMapController extends GetxController {
+class ClientOrderMapController extends GetxController {
   Order order = Order.fromMap(Get.arguments['order'] ?? {});
   OrdersProvider _ordersProvider = OrdersProvider();
   CameraPosition initialPosition =
@@ -38,7 +38,7 @@ class DeliveryOrderMapController extends GetxController {
 
   List<LatLng> points = [];
 
-  DeliveryOrderMapController() {
+  ClientOrderMapController() {
     print('ORDEN: ${order.toMap()}');
 
     checkGpsEnabled(); //Verifica el gps si esta activado
@@ -132,11 +132,10 @@ class DeliveryOrderMapController extends GetxController {
       //Guardar coordenadas del delivery
       saveLocation();
 
-      animateCameraPosition(
-          position?.latitude ?? 10.5118637, position?.longitude ?? -66.963071);
+      animateCameraPosition(order.lat ?? 10.5118637, order.lng ?? -66.963071);
       //Marcador Delivery
-      addMarker('Delivery', position!.latitude, position!.longitude,
-          'Posicion actual', '', deliveryMarker!);
+      addMarker('Delivery', order.lat!.toDouble(), order.lng!.toDouble(),
+          'Delivery asignado', '', deliveryMarker!);
       //Marcador Sitio de Entrega
       addMarker(
           'Home',
@@ -151,20 +150,6 @@ class DeliveryOrderMapController extends GetxController {
           order.address?.lat ?? 10.5118637, order.address?.lng ?? -66.963071);
 
       setPolylines(from, to);
-
-      LocationSettings locationSettings = const LocationSettings(
-          accuracy: LocationAccuracy.best, distanceFilter: 1);
-
-      positionSub =
-          Geolocator.getPositionStream(locationSettings: locationSettings)
-              .listen((Position pos) {
-        //Posicion en tiempo real
-        position = pos;
-        addMarker('Delivery', position!.latitude, position!.longitude,
-            'Posicion actual', '', deliveryMarker!);
-        animateCameraPosition(position?.latitude ?? 10.5118637,
-            position?.longitude ?? -66.963071);
-      });
     } catch (e) {
       print('Error: $e');
     }
@@ -175,7 +160,7 @@ class DeliveryOrderMapController extends GetxController {
   }
 
   void callNumber() async {
-    String number = order.client?.phone ?? ''; //set the number here
+    String number = order.delivery?.phone ?? ''; //set the number here
     await FlutterPhoneDirectCaller.callNumber(number);
   }
 
