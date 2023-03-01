@@ -86,8 +86,8 @@ class Order {
         "lat": lat,
         "lng": lng,
         "timestamp": timestamp,
-        "products": products!
-            .map((e) => e.toMap())
+        "products": products
+            ?.map((e) => e.toMap())
             .toList(), // products!.map((e) => e.toMap()).toList() quita el error Converting object to an encodable object failed
         "client": client,
         "address": address?.toMap(),

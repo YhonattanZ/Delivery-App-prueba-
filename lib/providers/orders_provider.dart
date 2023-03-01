@@ -90,13 +90,22 @@ class OrdersProvider extends GetConnect {
     return responseApi;
   }
 
+  Future<ResponseApi> updateToDelivered(Order order) async {
+    Response res = await put('$url/updateToDelivered', order.toMap(), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': _user.sessionToken ?? ''
+    });
+    ResponseApi responseApi = ResponseApi.fromJson(res.body);
+    return responseApi;
+  }
+
   Future<ResponseApi> updateLatLng(Order order) async {
     Response res = await put('$url/updateLatLng', order.toMap(), headers: {
       'Content-Type': 'application/json',
       'Authorization': _user.sessionToken ?? ''
     });
-    ResponseApi responseApi = ResponseApi.fromJson(res.body);
 
+    ResponseApi responseApi = ResponseApi.fromJson(res.body);
     return responseApi;
   }
 }

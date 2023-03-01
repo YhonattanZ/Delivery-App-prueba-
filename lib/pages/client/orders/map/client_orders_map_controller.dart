@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:app_delivery/constants/constants.dart';
 import 'package:app_delivery/environment/environment.dart';
 import 'package:app_delivery/providers/orders_provider.dart';
 import 'package:app_delivery/src/models/models.dart';
@@ -8,14 +9,21 @@ import 'package:app_delivery/src/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
+import 'package:socket_io_client/socket_io_client.dart';
 
 class ClientOrderMapController extends GetxController {
+  Socket socket = io('${Environment.API_URL}orders/delivery', <String, dynamic>{
+    'transports': ['websocket'],
+    'autoConnect': false
+  });
+
   Order order = Order.fromMap(Get.arguments['order'] ?? {});
   OrdersProvider _ordersProvider = OrdersProvider();
   CameraPosition initialPosition =
@@ -33,15 +41,40 @@ class ClientOrderMapController extends GetxController {
 
   StreamSubscription? positionSub;
 
-//Polyline
   Set<Polyline> polylines = <Polyline>{}.obs;
-
   List<LatLng> points = [];
+
+//Polyline
 
   ClientOrderMapController() {
     print('ORDEN: ${order.toMap()}');
 
     checkGpsEnabled(); //Verifica el gps si esta activado
+    connectSocketIO(); //Conecta con SOCKET IO
+  }
+
+  void connectSocketIO() {
+    socket.connect();
+    socket.onConnect(
+        (data) => {print('Este dispositivo se conecto a Socket IO')});
+    listenPosition();
+    listenDelivered();
+  }
+
+  void listenPosition() {
+    socket.on('position/${order.id}', (data) {
+      addMarker('Delivery', data['lat'], data['lng'], 'Delivery asignado', '',
+          deliveryMarker!);
+    });
+  }
+
+  void listenDelivered() {
+    socket.on('delivered/${order.id}', (data) {
+      Fluttertoast.showToast(
+          msg: 'El estado de la orden se ha actualizado',
+          toastLength: Toast.LENGTH_LONG);
+      Get.offNamedUntil('/client/home', (route) => false);
+    });
   }
 
   Future setLocationInfo() async {
@@ -106,23 +139,22 @@ class ClientOrderMapController extends GetxController {
     }
   }
 
-//TODO: Realizar polylines
   Future<void> setPolylines(LatLng from, LatLng to) async {
-    PointLatLng pointfrom = PointLatLng(from.latitude, from.longitude);
+    PointLatLng pointFrom = PointLatLng(from.latitude, from.longitude);
     PointLatLng pointTo = PointLatLng(to.latitude, to.longitude);
     PolylineResult result = await PolylinePoints()
-        .getRouteBetweenCoordinates(Environment.apiKeyMaps, pointfrom, pointTo);
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
-        points.add(LatLng(point.latitude, point.longitude));
-      });
+        .getRouteBetweenCoordinates(Environment.apiKeyMaps, pointFrom, pointTo);
+
+    for (PointLatLng point in result.points) {
+      points.add(LatLng(point.latitude, point.longitude));
     }
-    PolylineId id = PolylineId('poly');
-    Polyline polyline =
-        Polyline(polylineId: id, color: Colors.red, points: points, width: 5);
+    Polyline polyline = Polyline(
+        polylineId: PolylineId('poly'),
+        color: kSecondaryColor,
+        points: points,
+        width: 5);
 
     polylines.add(polyline);
-    update();
   }
 
   void updateLocation() async {
@@ -130,11 +162,10 @@ class ClientOrderMapController extends GetxController {
       await _determinePosition();
       position = await Geolocator.getLastKnownPosition();
       //Guardar coordenadas del delivery
-      saveLocation();
 
       animateCameraPosition(order.lat ?? 10.5118637, order.lng ?? -66.963071);
       //Marcador Delivery
-      addMarker('Delivery', order.lat!.toDouble(), order.lng!.toDouble(),
+      addMarker('Delivery', order.lat ?? 10.5118637, order.lng ?? -66.963071,
           'Delivery asignado', '', deliveryMarker!);
       //Marcador Sitio de Entrega
       addMarker(
@@ -162,12 +193,6 @@ class ClientOrderMapController extends GetxController {
   void callNumber() async {
     String number = order.delivery?.phone ?? ''; //set the number here
     await FlutterPhoneDirectCaller.callNumber(number);
-  }
-
-  void saveLocation() async {
-    order.lat = position!.latitude;
-    order.lng = position!.longitude;
-    await _ordersProvider.updateLatLng(order);
   }
 
   Future animateCameraPosition(double lat, double lng) async {
@@ -209,5 +234,6 @@ class ClientOrderMapController extends GetxController {
   void onClose() {
     super.onClose();
     positionSub?.cancel();
+    socket.disconnect();
   }
 }

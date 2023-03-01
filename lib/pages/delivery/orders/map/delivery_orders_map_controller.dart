@@ -8,14 +8,20 @@ import 'package:app_delivery/src/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
+import 'package:socket_io_client/socket_io_client.dart';
 
 class DeliveryOrderMapController extends GetxController {
+  Socket socket = io('${Environment.API_URL}orders/delivery', <String, dynamic>{
+    'transports': ['websocket'],
+    'autoConnect': false
+  });
   Order order = Order.fromMap(Get.arguments['order'] ?? {});
   OrdersProvider _ordersProvider = OrdersProvider();
   CameraPosition initialPosition =
@@ -38,10 +44,51 @@ class DeliveryOrderMapController extends GetxController {
 
   List<LatLng> points = [];
 
-  DeliveryOrderMapController() {
-    print('ORDEN: ${order.toMap()}');
+  double distanceBetween = 0.0;
+  bool isClose = false;
 
+  DeliveryOrderMapController() {
     checkGpsEnabled(); //Verifica el gps si esta activado
+    print('POR AQUI SI PASO');
+    connectSocketIO(); //Verifica si se conecto a socket IO
+  }
+
+  void isCloseToDeliveryPosition() {
+    if (position != null) {
+      distanceBetween = Geolocator.distanceBetween(
+          position!.latitude,
+          position!.longitude,
+          order.address!.lat!.toDouble(),
+          order.address!.lng!.toDouble());
+    }
+
+    if (distanceBetween <= 200 && isClose == false) {
+      isClose = true;
+      update();
+    }
+  }
+
+  void connectSocketIO() {
+    socket.connect();
+    socket.onConnect((data) {
+      print('ESTE DISPOSITIVO SE CONECTO A SOCKET IO');
+    });
+  }
+
+  void emitPosition() {
+    if (position != null) {
+      socket.emit('position', {
+        'id_order': order.id,
+        'lat': position!.latitude,
+        'lng': position!.longitude
+      });
+    }
+  }
+
+  void emitDelivered() {
+    socket.emit('delivered', {
+      'id_order': order.id,
+    });
   }
 
   Future setLocationInfo() async {
@@ -125,6 +172,21 @@ class DeliveryOrderMapController extends GetxController {
     update();
   }
 
+  void updateToDelivered() async {
+    if (distanceBetween <= 200) {
+      ResponseApi responseApi = await _ordersProvider.updateToDelivered(order);
+      if (responseApi.success == true) {
+        emitDelivered();
+        Get.offNamedUntil('/delivery/home', (route) => false);
+        Fluttertoast.showToast(
+            msg: responseApi.message ?? '', toastLength: Toast.LENGTH_LONG);
+      } else {
+        Get.snackbar(
+            'No permitido', 'Debes estar mas cerca de la ubicacion del pedido');
+      }
+    }
+  }
+
   void updateLocation() async {
     try {
       await _determinePosition();
@@ -150,8 +212,6 @@ class DeliveryOrderMapController extends GetxController {
       LatLng to = LatLng(
           order.address?.lat ?? 10.5118637, order.address?.lng ?? -66.963071);
 
-      setPolylines(from, to);
-
       LocationSettings locationSettings = const LocationSettings(
           accuracy: LocationAccuracy.best, distanceFilter: 1);
 
@@ -164,6 +224,9 @@ class DeliveryOrderMapController extends GetxController {
             'Posicion actual', '', deliveryMarker!);
         animateCameraPosition(position?.latitude ?? 10.5118637,
             position?.longitude ?? -66.963071);
+        setPolylines(from, to);
+        emitPosition();
+        isCloseToDeliveryPosition();
       });
     } catch (e) {
       print('Error: $e');
@@ -180,9 +243,11 @@ class DeliveryOrderMapController extends GetxController {
   }
 
   void saveLocation() async {
-    order.lat = position!.latitude;
-    order.lng = position!.longitude;
-    await _ordersProvider.updateLatLng(order);
+    if (position != null) {
+      order.lat = position!.latitude;
+      order.lng = position!.longitude;
+      await _ordersProvider.updateLatLng(order);
+    }
   }
 
   Future animateCameraPosition(double lat, double lng) async {
@@ -224,5 +289,6 @@ class DeliveryOrderMapController extends GetxController {
   void onClose() {
     super.onClose();
     positionSub?.cancel();
+    socket.disconnect();
   }
 }

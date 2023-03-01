@@ -216,15 +216,14 @@ class ClientOrdersMapPage extends StatelessWidget {
 
   Widget _googleMap() {
     return GoogleMap(
-      initialCameraPosition: clientmapController.initialPosition,
-      mapType: MapType.normal,
-      onMapCreated: (GoogleMapController controller) {
-        clientmapController.googleMapController.complete(controller);
-      },
-      myLocationButtonEnabled: false,
-      myLocationEnabled: false,
-      markers: Set<Marker>.of(clientmapController.markers.values),
-      //  polylines: deliverymapController.polylines,
-    );
+        initialCameraPosition: clientmapController.initialPosition,
+        mapType: MapType.normal,
+        onMapCreated: (GoogleMapController controller) {
+          clientmapController.googleMapController.complete(controller);
+        },
+        myLocationButtonEnabled: false,
+        myLocationEnabled: false,
+        markers: Set<Marker>.of(clientmapController.markers.values),
+        polylines: clientmapController.polylines);
   }
 }

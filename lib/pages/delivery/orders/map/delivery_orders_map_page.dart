@@ -185,9 +185,9 @@ class DeliveryOrdersMapPage extends StatelessWidget {
       height: size.height * 0.06,
       width: size.width * 0.8,
       child: ElevatedButton(
-        onPressed: () {
-          deliverymapController.selectRefPoint(context);
-        },
+        onPressed: deliverymapController.isClose == true
+            ? () => deliverymapController.updateToDelivered()
+            : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: kSecondaryColor,
           shape: const RoundedRectangleBorder(
@@ -247,7 +247,7 @@ class DeliveryOrdersMapPage extends StatelessWidget {
       myLocationButtonEnabled: false,
       myLocationEnabled: false,
       markers: Set<Marker>.of(deliverymapController.markers.values),
-      //  polylines: deliverymapController.polylines,
+      polylines: deliverymapController.polylines,
     );
   }
 }
