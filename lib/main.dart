@@ -100,7 +100,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/client/orders/map', page: () => ClientOrdersMapPage()),
         GetPage(
             name: '/client/payments/create',
-            page: () => const ClientPaymentsCreatePage()),
+            page: () => ClientPaymentsCreatePage()),
       ],
       navigatorKey: Get.key,
       home: Scaffold(
