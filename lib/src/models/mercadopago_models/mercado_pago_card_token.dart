@@ -34,14 +34,16 @@ class MercadoPagoCardToken {
 
   MercadoPagoCardToken.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    publicKey = json['publick_key'];
+    publicKey = json['public_key'];
     cardId = json['card_id'];
     luhnValidation = json['luhnValidation'];
-    status = json['status'];
+    status = json['status'].toString();
     dateUsed =
         (json['date_used'] != null) ? DateTime.parse(json['date_used']) : null;
     cardNumberLength = json['card_number_length'];
-    // dateCreated         = json['date_created'] is DateTime ? json['date_created'] : DateTime.parse(json['date_created']);
+    // dateCreated = json['date_created'] is DateTime
+    //     ? json['date_created']
+    //     : DateTime.parse(json['date_created']);
     firstSixDigits = json['first_six_digits'];
     lastFourDigits = json['last_four_digits'];
     securityCodeLength = json['security_code_length'];
@@ -51,8 +53,12 @@ class MercadoPagoCardToken {
     expirationYear = (json['expiration_year'] != null)
         ? int.parse(json['expiration_year'].toString())
         : 0;
-    // dateLastUpdated     = json['date_last_updated'] is DateTime ? json['date_last_updated'] : DateTime.parse(json['date_last_updated']);
-    // dateDue             = json['date_due'] is DateTime ? json['date_due'] : DateTime.parse(json['date_due']);
+    //dateLastUpdated = json['date_last_updated'] is DateTime
+    //    ? json['date_last_updated']
+    //    : DateTime.parse(json['date_last_updated']);
+    //dateDue = json['date_due'] is DateTime
+    //    ? json['date_due']
+    //    : DateTime.parse(json['date_due']);
     cardHolder = (json['cardholder'] != null)
         ? MercadoPagoCardHolder.fromJson(json['cardholder'])
         : null;

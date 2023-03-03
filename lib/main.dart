@@ -101,6 +101,9 @@ class _MyAppState extends State<MyApp> {
         GetPage(
             name: '/client/payments/create',
             page: () => ClientPaymentsCreatePage()),
+        GetPage(
+            name: '/client/payments/installments',
+            page: () => ClientPaymentsInstallmentsPage()),
       ],
       navigatorKey: Get.key,
       home: Scaffold(

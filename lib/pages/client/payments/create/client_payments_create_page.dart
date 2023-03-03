@@ -73,7 +73,7 @@ class ClientPaymentsCreatePage extends StatelessWidget {
         iconColor: kSecondaryColor,
         border: OutlineInputBorder(),
         labelText: 'Vencimiento',
-        hintText: 'XX/XX',
+        hintText: 'MM/YY',
       ),
       cvvCodeDecoration: const InputDecoration(
         border: OutlineInputBorder(),
@@ -126,7 +126,9 @@ class ClientPaymentsCreatePage extends StatelessWidget {
         height: size.height * 0.07,
         width: size.width * 0.6,
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            _paymentsCreateCtrlr.createCardToken();
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromARGB(255, 43, 136, 134),
             shape: const RoundedRectangleBorder(

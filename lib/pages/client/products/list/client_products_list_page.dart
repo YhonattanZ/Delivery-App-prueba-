@@ -104,8 +104,7 @@ class ClientProductsListPage extends StatelessWidget {
         ),
         child: IconButton(
             onPressed: () {
-              Get.toNamed('/client/payments/create');
-              // productListCtrl.goToClientOrderPage();
+              productListCtrl.goToClientOrderPage();
             },
             icon: const Icon(
               color: kSecondaryColor,

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:app_delivery/constants/constants.dart';
-import 'package:app_delivery/pages/restaurant/products/restaurant_product_create_controller.dart';
+import 'package:app_delivery/pages/restaurant/products/restaurant_create_product_controller.dart';
 import 'package:app_delivery/src/models/category.dart';
 import 'package:app_delivery/widgets/sign_up_forms.dart';
 import 'package:flutter/material.dart';
