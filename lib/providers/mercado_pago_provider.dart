@@ -2,9 +2,13 @@ import 'package:app_delivery/environment/environment.dart';
 import 'package:app_delivery/src/models/mercado_pago_document_type.dart';
 import 'package:app_delivery/src/models/mercadopago_models/mercado_pago_card_token.dart';
 import 'package:app_delivery/src/models/mercadopago_models/mercado_pago_payment_method_installments.dart';
+import 'package:app_delivery/src/models/models.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class MercadoPagoProvider extends GetConnect {
+  final User _user = User.fromJson(GetStorage().read('user') ?? {});
+
   String url = Environment.API_MERCADOPAGO;
 
   //Traer todos los documentos validos
@@ -49,6 +53,43 @@ class MercadoPagoProvider extends GetConnect {
         MercadoPagoPaymentMethodInstallments.fromJson(res.body[0]);
 
     return documents;
+  }
+
+  Future<ResponseApi> createPayment({
+    required String? token,
+    required String? paymentMethodId,
+    required String? paymentTypeID,
+    required String? emailClient,
+    required String? issuerID,
+    required String? identificationType,
+    required String? identificationNumber,
+    required int? installments,
+    required double? transactionAmount,
+    required Order? order,
+  }) async {
+    Response res = await post('${Environment.API_URL}api/payments/create', {
+      'token': token,
+      'issuer_id': issuerID,
+      'payment_method_id': paymentMethodId,
+      'transaction_amount': transactionAmount,
+      'installments': installments,
+      'payer': {
+        'email': emailClient,
+        'identification': {
+          'type': identificationType,
+          'number': identificationNumber,
+        },
+      },
+      'order': order!.toMap()
+    }, headers: {
+      'Content-Type': 'application/json',
+      'Authorization': _user.sessionToken ?? ''
+    });
+    print('RESPONSE: ${res.body}');
+    print('STATUS CODE: ${res.statusCode}');
+
+    ResponseApi responseApi = ResponseApi.fromJson(res.body);
+    return responseApi;
   }
 
 //Crear token de MercadoPago

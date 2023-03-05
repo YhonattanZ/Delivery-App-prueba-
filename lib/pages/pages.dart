@@ -1,3 +1,5 @@
+export 'package:app_delivery/pages/client/payments/status/client_payments_status_page.dart';
+
 export 'package:app_delivery/pages/client/payments/create/installments/client_payments_installment_page.dart';
 
 export 'package:app_delivery/pages/client/orders/map/client_orders_map_page.dart';

@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 class ClientPaymentsInstallmentsPage extends StatelessWidget {
   ClientPaymentsInstallmentsPage({super.key});
 
-  ClientPaymentsInstallmentsController _clientPaymentsInstallCtrl =
+  final ClientPaymentsInstallmentsController _clientPaymentsInstallCtrl =
       Get.put(ClientPaymentsInstallmentsController());
 
   @override
@@ -93,7 +93,9 @@ class ClientPaymentsInstallmentsPage extends StatelessWidget {
             height: size.height * 0.080,
             width: size.width * 0.6,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                _clientPaymentsInstallCtrl.createPayment();
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 43, 136, 134),
                 shape: const RoundedRectangleBorder(
