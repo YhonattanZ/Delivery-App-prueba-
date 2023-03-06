@@ -1,3 +1,4 @@
+import 'package:app_delivery/pages/client/products/list/client_product_list_controller.dart';
 import 'package:app_delivery/src/models/models.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -5,6 +6,8 @@ import 'package:get_storage/get_storage.dart';
 class ClientOrdersCreateController extends GetxController {
   List<Product> selectedProducts = <Product>[].obs;
   var total = 0.0.obs;
+  final ClientProductListController _clientProductListController = Get.find();
+
   ClientOrdersCreateController() {
     if (GetStorage().read('shopping_bag') != null) {
       if (GetStorage().read('shopping_bag') is List<Product>) {
@@ -35,6 +38,16 @@ class ClientOrdersCreateController extends GetxController {
     GetStorage()
         .write('shopping_bag', selectedProducts.map((e) => e.toMap()).toList());
     getTotal();
+    _clientProductListController.items.value = 0;
+    if (selectedProducts.isEmpty) {
+      _clientProductListController.items.value = 0;
+    } else {
+      for (var element in selectedProducts) {
+        _clientProductListController.items.value =
+            _clientProductListController.items.value +
+                (element.quantity!.toInt());
+      }
+    }
   }
 
   void addItem(Product product) {
@@ -45,6 +58,14 @@ class ClientOrdersCreateController extends GetxController {
     GetStorage()
         .write('shopping_bag', selectedProducts.map((e) => e.toMap()).toList());
     getTotal();
+    //Antes de realizar el recorrido de valores, se regresa el valor a 0
+    _clientProductListController.items.value = 0;
+    //Este for loop recorre los items añadidos en la lista y muestra la cantidad en la bolsa de compra
+    for (var element in selectedProducts) {
+      _clientProductListController.items.value =
+          _clientProductListController.items.value +
+              (element.quantity!.toInt());
+    }
   }
 
   void removeItem(Product product) {
@@ -56,6 +77,12 @@ class ClientOrdersCreateController extends GetxController {
       GetStorage().write(
           'shopping_bag', selectedProducts.map((e) => e.toMap()).toList());
       getTotal();
+      _clientProductListController.items.value = 0;
+      for (var element in selectedProducts) {
+        _clientProductListController.items.value =
+            _clientProductListController.items.value +
+                (element.quantity!.toInt());
+      }
     }
   }
 }

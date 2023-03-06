@@ -291,14 +291,16 @@ class ClientProductDetailPage extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          height: 38,
-          width: 38,
+          height: 40,
+          width: 40,
           decoration: const BoxDecoration(
-              color: Colors.white60,
+              color: kSecondaryColor,
               borderRadius: BorderRadius.all(Radius.circular(10))),
           child: IconButton(
               padding: const EdgeInsets.symmetric(horizontal: 14),
-              onPressed: () {},
+              onPressed: () {
+                Get.back();
+              },
               icon: const Icon(
                 Icons.arrow_back_ios,
                 color: Colors.white,
@@ -306,7 +308,12 @@ class ClientProductDetailPage extends StatelessWidget {
               )),
         ),
         Container(
+          height: 40,
+          width: 40,
           margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          decoration: const BoxDecoration(
+              color: kSecondaryColor,
+              borderRadius: BorderRadius.all(Radius.circular(10))),
           child: IconButton(
               onPressed: () {},
               icon: const Icon(

@@ -1,4 +1,5 @@
 import 'package:app_delivery/constants/constants.dart';
+import 'package:app_delivery/pages/client/products/list/client_product_list_controller.dart';
 import 'package:app_delivery/src/models/models.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -6,7 +7,7 @@ import 'package:get_storage/get_storage.dart';
 
 class ClientProductDetailController extends GetxController {
   List<Product>? selectedProducts = [];
-
+  final ClientProductListController _clientProductListController = Get.find();
   ClientProductDetailController() {
 //Productos almacenados en sesion
   }
@@ -49,15 +50,20 @@ class ClientProductDetailController extends GetxController {
       } // HA SIDO AGREGADO
 
       GetStorage().write(
-          'shopping_bag',
-          selectedProducts!
-              .map((e) => e.toMap())
-              .toList()); // TODO: ERROR DE GUARDADO DE PRODUCTO
+          'shopping_bag', selectedProducts!.map((e) => e.toMap()).toList());
 
       Fluttertoast.showToast(
           webShowClose: false,
           textColor: kSecondaryColor,
           msg: 'Producto agregado con exito al carrito');
+      //Antes de realizar el recorrido de valores, se regresa el valor a 0
+      _clientProductListController.items.value = 0;
+      //Este for loop recorre los items añadidos en la lista y muestra la cantidad en la bolsa de compra
+      for (var element in selectedProducts!) {
+        _clientProductListController.items.value =
+            _clientProductListController.items.value +
+                (element.quantity!.toInt());
+      }
     }
   }
 

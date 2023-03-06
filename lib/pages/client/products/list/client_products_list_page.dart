@@ -93,8 +93,8 @@ class ClientProductsListPage extends StatelessWidget {
   Widget _shoppingBag() {
     return SafeArea(
       child: Container(
-        width: 45,
-        height: 45,
+        width: 50,
+        height: 50,
         decoration: const BoxDecoration(
           boxShadow: <BoxShadow>[
             BoxShadow(color: Colors.black45, blurRadius: 10),
@@ -102,15 +102,53 @@ class ClientProductsListPage extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(15)),
           color: Colors.white,
         ),
-        child: IconButton(
-            onPressed: () {
-              productListCtrl.goToClientOrderPage();
-            },
-            icon: const Icon(
-              color: kSecondaryColor,
-              Icons.shopping_bag_outlined,
-              size: 28,
-            )),
+        child: productListCtrl.items.value > 0
+            ? Stack(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        productListCtrl.goToClientOrderPage();
+                      },
+                      icon: const Icon(
+                        color: kSecondaryColor,
+                        Icons.shopping_bag_outlined,
+                        size: 32,
+                      )),
+                  Positioned(
+                      left: 30,
+                      top: 32,
+                      child: Container(
+                          width: 18,
+                          height: 18,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: kSecondaryColor,
+                                    spreadRadius: 2,
+                                    blurRadius: 2)
+                              ],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(40))),
+                          child: Text(
+                            '${productListCtrl.items.value}',
+                            style: GoogleFonts.lato(
+                                color: kSecondaryColor,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500),
+                          )))
+                ],
+              )
+            : IconButton(
+                onPressed: () {
+                  productListCtrl.goToClientOrderPage();
+                },
+                icon: const Icon(
+                  color: kSecondaryColor,
+                  Icons.shopping_bag_outlined,
+                  size: 28,
+                )),
       ),
     );
   }
