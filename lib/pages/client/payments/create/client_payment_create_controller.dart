@@ -38,7 +38,6 @@ class ClientPaymentsCreateController extends GetxController {
               cvv: cvvCode.value,
               documentId: idDocument.value,
               documentNumber: documentNumber);
-      Get.snackbar('TOKEN', '${mercadoPagoCardToken.id}');
       Get.toNamed('client/payments/installments', arguments: {
         'card':
             mercadoPagoCardToken.toJson(), //Permite obtener todos los valores

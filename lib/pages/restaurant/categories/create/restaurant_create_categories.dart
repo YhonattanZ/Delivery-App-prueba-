@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-CreateCategoryController _createCategoryCtrl =
-    Get.put(CreateCategoryController());
+RestaurantCreateCategoryController _createCategoryCtrl =
+    Get.put(RestaurantCreateCategoryController());
 
 class RestaurantCategoriesCreatePage extends StatelessWidget {
   const RestaurantCategoriesCreatePage({super.key});

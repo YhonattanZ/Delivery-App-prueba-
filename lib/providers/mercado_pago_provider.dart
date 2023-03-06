@@ -55,7 +55,7 @@ class MercadoPagoProvider extends GetConnect {
     return documents;
   }
 
-  Future<ResponseApi> createPayment({
+  Future<Response> createPayment({
     required String? token,
     required String? paymentMethodId,
     required String? paymentTypeID,
@@ -88,8 +88,7 @@ class MercadoPagoProvider extends GetConnect {
     print('RESPONSE: ${res.body}');
     print('STATUS CODE: ${res.statusCode}');
 
-    ResponseApi responseApi = ResponseApi.fromJson(res.body);
-    return responseApi;
+    return res;
   }
 
 //Crear token de MercadoPago

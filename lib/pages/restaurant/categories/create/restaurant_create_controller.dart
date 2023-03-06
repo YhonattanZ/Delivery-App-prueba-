@@ -3,7 +3,7 @@ import 'package:app_delivery/src/models/models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class CreateCategoryController extends GetxController {
+class RestaurantCreateCategoryController extends GetxController {
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController descriptionCtrl = TextEditingController();
 
