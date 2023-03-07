@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_delivery/pages/pages.dart';
 import 'package:app_delivery/providers/categories_provider.dart';
 import 'package:app_delivery/providers/products_provider.dart';
@@ -12,6 +14,9 @@ class ClientProductListController extends GetxController {
   ProductProvider productProvider = ProductProvider();
   List<Product>? selectedProducts = [];
   var items = 0.obs;
+
+  var productName = ''.obs;
+  Timer? searchOnTyping;
 
   List<Category> categories = <Category>[].obs;
 
@@ -30,14 +35,29 @@ class ClientProductListController extends GetxController {
     }
   }
 
+  void onChangeText(String text) {
+    const duration = Duration(milliseconds: 800);
+    if (searchOnTyping != null) {
+      searchOnTyping?.cancel();
+    }
+    searchOnTyping = Timer(duration, () {
+      productName.value = text;
+    });
+  }
+
   void getCategories() async {
     var result = await _categoriesProvider.getAllCategory();
     categories.clear();
     categories.addAll(result);
   }
 
-  Future<List<Product>> getProducts(String idCategory) async {
-    return await productProvider.findByCategory(idCategory);
+  Future<List<Product>> getProducts(
+      String idCategory, String nameProduct) async {
+    if (nameProduct.isEmpty) {
+      return await productProvider.findByCategory(idCategory);
+    } else {
+      return await productProvider.findByName(idCategory, nameProduct);
+    }
   }
 
   void goToClientOrderPage() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NoDataWidget extends StatelessWidget {
   NoDataWidget({this.text, super.key});
@@ -18,7 +19,10 @@ class NoDataWidget extends StatelessWidget {
           width: width / 1,
           height: height / 2.5,
         ),
-        Text(text!)
+        Text(
+          text!,
+          style: GoogleFonts.lato(fontSize: 20),
+        )
       ],
     );
   }

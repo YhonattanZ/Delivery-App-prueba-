@@ -4,7 +4,6 @@ import 'package:app_delivery/src/models/models.dart';
 import 'package:app_delivery/widgets/widgets.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,54 +22,59 @@ class ClientProductsListPage extends StatelessWidget {
     return Obx(() => DefaultTabController(
           length: productListCtrl.categories.length,
           child: Scaffold(
+              resizeToAvoidBottomInset: false,
               appBar: PreferredSize(
-                preferredSize: Size.fromHeight(height / 4.2),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: kSecondaryColor,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 40.0),
-                    child: Column(children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _searchBar(context),
-                            _shoppingBag(),
-                          ]),
-                      SizedBox(height: 25),
-                      TabBar(
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        isScrollable: true,
-                        indicatorWeight: 1,
-                        indicatorColor: Colors.white,
-                        labelColor: kSecondaryColor,
-                        unselectedLabelColor: Colors.grey,
-                        indicator: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(color: Colors.white, width: 1),
-                            color: Colors.white),
-                        tabs: [
-                          ...List<Widget>.generate(
-                              productListCtrl.categories.length, (index) {
-                            return Tab(
-                              child: Text(
-                                  productListCtrl.categories[index].name ?? ''),
-                            );
-                          }),
-                        ],
-                      ),
-                    ]),
+                preferredSize: Size.fromHeight(height / 4.4),
+                child: SingleChildScrollView(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: kSecondaryColor,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 40.0),
+                      child: Column(children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              _searchBar(context),
+                              _shoppingBag(),
+                            ]),
+                        SizedBox(height: 20),
+                        TabBar(
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          isScrollable: true,
+                          indicatorWeight: 1,
+                          indicatorColor: Colors.white,
+                          labelColor: kSecondaryColor,
+                          unselectedLabelColor: Colors.grey,
+                          indicator: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(color: Colors.white, width: 1),
+                              color: Colors.white),
+                          tabs: [
+                            ...List<Widget>.generate(
+                                productListCtrl.categories.length, (index) {
+                              return Tab(
+                                child: Text(
+                                    productListCtrl.categories[index].name ??
+                                        ''),
+                              );
+                            }),
+                          ],
+                        ),
+                      ]),
+                    ),
                   ),
                 ),
               ),
               body: TabBarView(
                   children: productListCtrl.categories.map((Category category) {
                 return FutureBuilder(
-                  future: productListCtrl.getProducts(category.id ?? '1'),
+                  future: productListCtrl.getProducts(
+                      category.id ?? '1', productListCtrl.productName.value),
                   builder: (context, AsyncSnapshot<List<Product>> snapshot) {
                     if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                       return ListView.builder(
@@ -80,8 +84,10 @@ class ClientProductsListPage extends StatelessWidget {
                             return _CardProduct(snapshot.data![i], context);
                           });
                     } else {
-                      return NoDataWidget(
-                        text: 'No hay productos',
+                      return SingleChildScrollView(
+                        child: NoDataWidget(
+                          text: 'No hay productos',
+                        ),
                       );
                     }
                   },
@@ -157,25 +163,31 @@ class ClientProductsListPage extends StatelessWidget {
     return SafeArea(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.75,
-        child: TextField(
-          decoration: InputDecoration(
-            hintText: 'Busca un producto',
-            hintStyle: GoogleFonts.lato(
-                fontSize: 18, color: Colors.black, fontWeight: FontWeight.w300),
-            suffixIcon: const Icon(
-              Icons.search,
-              color: kSecondaryColor,
-              size: 30,
+        child: SingleChildScrollView(
+          child: TextField(
+            autofocus: false,
+            onChanged: productListCtrl.onChangeText,
+            decoration: InputDecoration(
+              hintText: 'Busca un producto',
+              hintStyle: GoogleFonts.lato(
+                  fontSize: 20,
+                  color: Colors.black38,
+                  fontWeight: FontWeight.w400),
+              suffixIcon: const Icon(
+                Icons.search,
+                color: kSecondaryColor,
+                size: 30,
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(color: kSecondaryColor)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(color: kSecondaryColor)),
+              contentPadding: const EdgeInsets.all(15),
             ),
-            filled: true,
-            fillColor: Colors.white,
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: const BorderSide(color: kSecondaryColor)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: const BorderSide(color: kSecondaryColor)),
-            contentPadding: const EdgeInsets.all(15),
           ),
         ),
       ),

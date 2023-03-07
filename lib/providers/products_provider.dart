@@ -45,4 +45,22 @@ class ProductProvider extends GetConnect {
 
     return products;
   }
+
+  //Encontrar productos por nomnre
+  Future<List<Product>> findByName(String name, String idCategory) async {
+    Response res = await get(
+        '${Environment.API_URL}api/products/findByName/$idCategory/$name',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': user.sessionToken ?? ''
+        });
+    if (res.statusCode == 401) {
+      Get.snackbar('Peticion negada', 'No posee autorizacion');
+      return [];
+    }
+
+    List<Product> products = Product.fromJsonList(res.body["data"]);
+
+    return products;
+  }
 }
