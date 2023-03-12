@@ -1,16 +1,35 @@
 import 'package:app_delivery/pages/pages.dart';
 import 'package:app_delivery/pages/roles/roles_page.dart';
+import 'package:app_delivery/providers/push_notifications_provider.dart';
 import 'package:app_delivery/src/models/models.dart';
+import 'package:app_delivery/utils/firebase_config.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 User userSession = User.fromJson(GetStorage().read('user') ?? {});
+PushNotificationsProvider _pushNotificationsProvider =
+    PushNotificationsProvider();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //await setupFlutterNotifications();
+  //showFlutterNotification(message);
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  print('RECIBIENDO PUSH NOTIFICATIONS ${message.messageId}');
+}
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   //Persistir datos de la sesion del usuario
   await GetStorage.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Set the background messaging handler early on, as a named top-level function
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  _pushNotificationsProvider.initPushNotification();
   runApp(const MyApp());
 }
 
@@ -25,7 +44,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     print('Sesion ${userSession.toJson()}');
+    _pushNotificationsProvider.onMessageListener();
   }
 
   @override

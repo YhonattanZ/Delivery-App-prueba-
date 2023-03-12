@@ -61,6 +61,32 @@ class UsersProvider extends GetConnect {
     return responseApi;
   }
 
+//Actualizar sin cambiar la imagen
+  Future<ResponseApi> updateNotificationToken(String id, String token) async {
+    //Peticion PUT para actualizar los datos
+    Response res = await put('$url/updateNotificationToken', {
+      'id': id,
+      'token': token
+    }, headers: {
+      'Content-Type': 'application/json',
+      'Authorization': sessionUser.sessionToken ?? ''
+    });
+
+    if (res.body == null) {
+      Get.snackbar(
+          'Fallo al actualizar los datos', 'Hubo un error en el servidor');
+      return ResponseApi();
+    }
+    if (res.statusCode == 401) {
+      Get.snackbar('No autorizado para realizar la peticion',
+          'Hubo un error al actualizar el token');
+      return ResponseApi();
+    }
+    ResponseApi responseApi = ResponseApi.fromJson(res.body);
+
+    return responseApi;
+  }
+
   Future<ResponseApi> login(String email, String password) async {
     Response res = await post(
         '$url/login', {'email': email, 'password': password},
