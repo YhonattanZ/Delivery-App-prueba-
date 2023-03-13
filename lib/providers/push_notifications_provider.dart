@@ -49,7 +49,23 @@ class PushNotificationsProvider {
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('ON MESSAGE OPENED APP');
+      showNotifications(message);
     });
+  }
+
+//Mostrar notificaciones
+  void showNotifications(RemoteMessage message) async {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+    if (notification != null && android != null && !kIsWeb) {
+      _plugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+              android: AndroidNotificationDetails(_channel.id, _channel.name,
+                  icon: "launch_background")));
+    }
   }
 
   void saveToken(String idUser) async {
